@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 //link responsable que se encarga de la conexion a la base de datos
-const url = "mongodb+srv://rootdavid:CejeRsRXLo5TlnVp@clusterazure.l92gg.mongodb.net/?retryWrites=true&w=majority";
+const url = "";
 //conexion a la base ded atos funcional
 const base = "mibase";
 
