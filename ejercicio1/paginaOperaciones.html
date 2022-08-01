@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    tabla
+    <div id="tablaPosiciones"></div>
+    <p>operaciones</p>
+    <input type="text" id="operacion">
+    <p>Operación a resolver: </p>
+    <p id="vistaOperacion"></p>
+    <button onclick="resolverOperacion()">resolver</button>
+    <h2 id="resultado"></h2>
+    <script>
+        var contador = 0;
+        function resolverOperacion() {
+            let cadena = document.getElementById("operacion").value;
+            document.getElementById("vistaOperacion").innerText = cadena;
+            let array = cadena.split('');
+            if (array.length <= 30) {
+                if (array.length >= 3) {
+                    console.log("hay 3 o mas elementos")
+                    buscarOperacion(array)
+                    //esto funciona
+                    //operaciones(parseInt(array[contador++]), array[contador++], parseInt(array[contador++]), array);
+
+                } else {
+                    console.log("no hay mas de 3 elementos")
+                }
+            }
+        }
+
+        function buscarOperacion(array) {
+            let opera = ["*", "/", "+", "-", "^"];
+            for (var i = 0; i < opera.length; i++) {
+                for (var j = 0; j < array.length; j++) {
+                    if (array[j] === opera[i]) {
+                        //console.log(array[j]);
+                        let antes = j - 1;
+                        let sig = j + 1;
+                        console.log(array)
+                        console.log(array[antes])
+                        console.log(array[j])
+                        console.log(array[sig])
+                        let numero1 = parseFloat(array[antes]);
+                        let numero2 = parseFloat(array[sig]);
+                        let resultado = operaciones(numero1, array[j], numero2);
+                        array[antes] = resultado;
+                        array.splice(j, 1);
+                        console.log(array)
+                        array.splice(j, 1);
+                        console.log(array)
+                        document.getElementById("resultado").innerText = resultado.toString();
+                        i = 0; j = 0;
+                        //operaciones()
+                    }
+                }
+            }
+        }
+
+        function operaciones(numero1, signo, numero2) {
+            var resultado=0;
+
+            if (signo === "+") {
+                resultado = numero1 + numero2;
+                //document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                return resultado;
+            }
+            if (signo === "-") {
+                resultado = numero1 - numero2;
+                //document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                return resultado;
+            }
+            if (signo === "*") {
+                resultado = numero1 * numero2;
+                //document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                return resultado;
+            }
+            if (signo === "/") {
+                resultado = numero1 / numero2;
+                //document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                return resultado;
+            }
+            if (signo === "^") {
+                console.log("entro a la potencia")
+                var i=0;
+                while(i<numero2){
+                    console.log("mono");
+                    resultado=resultado*numero1;
+                    i++;
+                }
+
+                //document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                return resultado;
+            }
+        }
+
+        /*
+        function operaciones(numero1, signo, numero2, array) {
+            var resultado = 0;
+
+            if (signo === "+") {
+                resultado = numero1 + numero2;
+                document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                if (array.length === contador) {
+                    console.log("ya se terminaron los elementos")
+                    contador = 0;
+                } else {
+                    operaciones(resultado, array[contador++], parseInt(array[contador++]), array);
+                }
+            }
+            if (signo === "-") {
+                resultado = numero1 - numero2;
+                document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                if (array.length === contador) {
+                    console.log("ya se terminaron los elementos")
+                    contador = 0;
+                } else {
+                    operaciones(resultado, array[contador++], parseInt(array[contador++]), array);
+                }
+            }
+            if (signo === "*") {
+                resultado = numero1 * numero2;
+                document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                if (array.length === contador) {
+                    console.log("ya se terminaron los elementos")
+                    contador = 0;
+                } else {
+                    operaciones(resultado, array[contador++], parseInt(array[contador++]), array);
+                }
+            }
+            if (signo === "/") {
+                resultado = numero1 / numero2;
+                document.getElementById("resultado").innerText = resultado.toString();
+                console.log("resultado: " + resultado)
+                if (array.length === contador) {
+                    console.log("ya se terminaron los elementos")
+                    contador = 0;
+                } else {
+                    operaciones(resultado, array[contador++], parseInt(array[contador++]), array);
+                }
+            }
+        }*/
+
+    </script>
+</body>
+
+</html>

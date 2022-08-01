@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="form-group">
+        <label>escribir conjunto de etiquetas el formato --->   [1,4,2]</label>
+        <input type="text" class="form-control" id="etiquetas" placeholder="escribe etiquetas">
+    </div>
+    
+    <button type="submit" onclick="crearRegistro()" class="btn btn-primary">Submit</button>
+
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">chosen tags</th>
+                <th scope="col">sum</th>
+                <th scope="col">is sum even?</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyObject">
+        </tbody>
+    </table>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        function crearRegistro() {
+            var etiquetas=document.getElementById('etiquetas').value;
+            var valor = sumaValores(etiquetas);
+            var thChosenTags = document.createElement('th');
+            thChosenTags.innerText=etiquetas;
+            var thSum = document.createElement('th');
+            thSum.innerText=valor;
+            var respuestaBinaria=verificarPar(valor);
+            var siono="";
+            if(respuestaBinaria===1){
+                siono="yes";
+            }else{
+                siono="no";
+            }
+            var thIsSumEven = document.createElement('th');
+            thIsSumEven.innerText=siono;
+            var tr = document.createElement('tr');
+            tr.appendChild(thChosenTags);
+            tr.appendChild(thSum);
+            tr.appendChild(thIsSumEven);
+            document.getElementById('tbodyObject').appendChild(tr);
+        }
+        function sumaValores(texto) {
+            var cadena = texto.replace("[", "")
+            cadena = cadena.replace("]", "")
+            console.log(cadena)
+            var array = cadena.split(",");
+            var resultado = 0;
+            array.forEach(element => {
+                console.log(element)
+                resultado = resultado + parseInt(element);
+                console.log("resultado: " + resultado)
+            });
+            return resultado;
+        }
+        function verificarPar(numero){
+            var bandera=0;
+            if((numero % 2) == 0){
+                bandera=1;
+                console.log("es par")
+            }
+            return bandera;
+        }
+    </script>
+</body>
+
+</html>

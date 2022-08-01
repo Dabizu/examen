@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #izquierda {
+            width: 50%;
+            float: left;
+        }
+
+        #derecha {
+            float: left;
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="izquierda">
+        <div id="formulario1">
+            <div class="form-group">
+                <label>class</label>
+                <input type="text" class="form-control" id="class" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>order</label>
+                <input type="text" class="form-control" id="order" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>numberofstudents</label>
+                <input type="text" class="form-control" id="numberofstudents" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>liststudents</label>
+                <input type="text" class="form-control" id="liststudents" placeholder="">
+            </div>
+            <button type="button" class="btn btn-outline-warning" onclick="registrarClassRoom()">registrar
+                clase</button>
+        </div>
+        <div id="listaClassRoom">
+            <table class="table table-dark" id="tablaClassRoom">
+                <thead>
+                    <tr>
+                        <th scope="col">class</th>
+                        <th scope="col">order</th>
+                        <th scope="col">number of students</th>
+                        <th scope="col">list students</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyObject">
+                    <!-- <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="derecha">
+        <div id="formulario2">
+            <div class="form-group">
+                <label>name</label>
+                <input type="text" class="form-control" id="name" placeholder="name">
+            </div>
+            <div class="form-group">
+                <label>age</label>
+                <input type="text" class="form-control" id="age" placeholder="age">
+            </div>
+            <button type="button" class="btn btn-outline-success" onclick="registrraEstudiante()">Registrar
+                studiante</button>
+        </div>
+        <div id="listaStudents">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">age</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyObject2">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        function registrarClassRoom() {
+            var clase = document.getElementById('class').value;
+            var order = document.getElementById('order').value;
+            var numberofstudents = document.getElementById('numberofstudents').value;
+            var liststudents = document.getElementById('liststudents').value;
+
+            const url = '/crearClassRoom?class=' + clase + '&order=' + order + '&numberofstudents=' + numberofstudents + '&liststudents=' + liststudents;
+            const http = new XMLHttpRequest()
+
+            http.open("POST", url)
+            http.onreadystatechange = function () {
+                listaClassRoom();
+                if (this.readyState == 4 && this.status == 200) {
+                    var resultado = JSON.parse(this.responseText)
+
+                }
+            }
+            http.send()
+        }
+        function registrraEstudiante() {
+            var name = document.getElementById('name').value;
+            var age = document.getElementById('age').value;
+            const url = '/crearStudent?name=' + name + '&age=' + age;
+            const http = new XMLHttpRequest()
+
+            http.open("POST", url)
+            http.onreadystatechange = function () {
+                listaEstudiante();
+                if (this.readyState == 4 && this.status == 200) {
+                    var resultado = JSON.parse(this.responseText)
+
+                }
+            }
+            http.send()
+        }
+        function listaClassRoom() {
+            document.getElementById('tbodyObject').innerHTML = "";
+            const url = '/listarClassRoom';
+            const http = new XMLHttpRequest()
+
+            http.open("POST", url)
+            http.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    var resultado = JSON.parse(this.responseText)
+                    console.log(resultado)
+                    resultado.forEach(element => {
+                        var thclass = document.createElement('th');
+                        thclass.setAttribute("id","classt");
+                        thclass.innerText = element.class;
+                        var thorder = document.createElement('th');
+                        thorder.setAttribute("id","ordert");
+                        thorder.innerText = element.order;
+                        var thnumberofstudents = document.createElement('th');
+                        thnumberofstudents.setAttribute("id","numberofstudentst")
+                        thnumberofstudents.innerText = element.numberOfStudents;
+                        var thliststudents = document.createElement('th');
+                        thliststudents.setAttribute("id","liststudentst")
+                        thliststudents.innerText = element.students;
+                        var tr = document.createElement('tr');
+                        tr.setAttribute("data-selected", "0");
+                        tr.onclick=()=>{
+                            console.log("hola")
+                            var clas=document.getElementsByTagName('th');
+                            console.log(clas)
+                        }
+                        tr.appendChild(thclass);
+                        tr.appendChild(thorder);
+                        tr.appendChild(thnumberofstudents);
+                        tr.appendChild(thliststudents);
+                        document.getElementById('tbodyObject').appendChild(tr);
+                    });
+                }
+            }
+            http.send()
+        }
+        listaClassRoom();
+        
+        function listaEstudiante() {
+            document.getElementById('tbodyObject2').innerHTML = "";
+            const url = '/listarStudent';
+            const http = new XMLHttpRequest()
+
+            http.open("POST", url)
+            http.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    var resultado = JSON.parse(this.responseText)
+                    console.log(resultado)
+                    resultado.forEach(element => {
+                        var thname = document.createElement('th');
+                        thname.setAttribute("id", "name");
+                        thname.innerText = element.name;
+                        var thage = document.createElement('th');
+                        thage.setAttribute("id", "age")
+                        thage.innerText = element.age;
+                        var tr = document.createElement('tr');
+                        tr.setAttribute("id", "trtable")
+                        tr.appendChild(thname);
+                        tr.appendChild(thage);
+                        document.getElementById('tbodyObject2').appendChild(tr);
+                    });
+                }
+            }
+            http.send()
+        }
+        listaEstudiante();
+
+        function actualizacionClassRoom() {
+            var classActualizar = document.getElementById('classActualizarbuscsar').value;
+            var clase = document.getElementById('classAct').value;
+            var order = document.getElementById('orderAct').value;
+            var numberofstudents = document.getElementById('numberofstudentsAct').value;
+            var liststudents = document.getElementById('liststudentsAct').value;
+
+            const url = '/actualizarClassRoom?classActualizar=' + classActualizar + 'class=' + clase + '&order=' + order + '&numberofstudents=' + numberofstudents + '&liststudents=' + liststudents;
+            const http = new XMLHttpRequest()
+
+            http.open("POST", url)
+            http.onreadystatechange = function () {
+                listaClassRoom();
+                if (this.readyState == 4 && this.status == 200) {
+                    var resultado = JSON.parse(this.responseText)
+
+                }
+            }
+            http.send()
+        }
+    </script>
+</body>
+
+</html>
